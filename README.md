@@ -14,6 +14,7 @@ It is designed to reduce deployment risks such as:
 - Database conflicts
 - Missing rollback plans
 - Accidental impact on existing services
+- Accidental exposure of sensitive configuration, logs, tokens, or environment variables
 
 ## Why this project exists
 
@@ -28,6 +29,7 @@ Before deployment, an AI agent should understand:
 - Which databases and caches are in use
 - What resources may be affected by the new project
 - How to roll back if deployment fails
+- Which discovery outputs may contain sensitive information and require human redaction
 
 ## Workflow
 
@@ -46,6 +48,42 @@ Phase 6: Rollback Plan
 ↓
 Phase 7: Deployment Execution Gate
 ```
+
+## Phase 1 discovery model
+
+Phase 1 uses a two-part discovery model:
+
+```text
+Phase 1 = AI-executable low-risk discovery + human-executed sensitive discovery
+```
+
+The AI may run low-risk read-only commands directly, such as:
+
+- System information checks
+- Resource usage checks
+- Port usage checks
+- Process overview checks
+- Common deployment tool detection
+- Shallow project directory scanning
+
+However, some read-only commands may expose sensitive information. These should be executed by the human manually, redacted, and then pasted back as summaries.
+
+Sensitive discovery areas include:
+
+- Full Nginx configuration
+- Environment variables and `.env` files
+- `docker inspect`
+- Application logs and system logs
+- `docker-compose.yml`
+- `ecosystem.config.js`
+
+Core rule:
+
+```text
+Read-only does not always mean safe.
+```
+
+A command may be read-only but still unsafe to expose directly if it prints secrets, tokens, environment variables, private routing rules, logs, or business data.
 
 ## Core principle
 
@@ -69,7 +107,9 @@ Use this workflow with:
 
 Before the final deployment phase, the AI is only allowed to inspect, analyze, and plan.
 
-It must not:
+Safety in this workflow includes both system safety and information safety.
+
+The AI must not:
 
 - Create project directories
 - Upload code
@@ -81,6 +121,8 @@ It must not:
 - Change PM2
 - Change Docker
 - Change databases
+- Request or print full secrets, tokens, private keys, passwords, cookies, or database connection strings
+- Request or print full production logs without redaction
 
 Deployment can only begin after the user explicitly says:
 
@@ -104,7 +146,7 @@ Server-Deployment-Review-Workflow/
 │   └── 07-deployment-execution-gate.md
 ├── templates/
 │   ├── server-inventory-template.md
-│   ├── architecture-report-template.md
+│   ├── architecture-summary-template.md
 │   ├── risk-report-template.md
 │   ├── change-impact-report-template.md
 │   ├── deployment-plan-template.md
@@ -121,13 +163,17 @@ Server-Deployment-Review-Workflow/
 1. Copy `prompts/00-master-workflow.md` into your AI Coding tool.
 2. Set the current phase, starting from Phase 1.
 3. Let the AI complete only the current phase.
-4. Review the output manually.
-5. Continue to the next phase only after confirmation.
-6. Do not allow deployment until Phase 7.
+4. In Phase 1, let the AI run only Class A low-risk discovery commands.
+5. For Class B sensitive discovery, run the command manually, redact sensitive values, and paste back only the necessary summary.
+6. Review the output manually.
+7. Continue to the next phase only after confirmation.
+8. Do not allow deployment until Phase 7.
 
 ## Design philosophy
 
 This workflow treats AI-assisted deployment as a controlled system change, not a casual command execution task.
+
+It also treats server discovery as both an engineering task and an information-safety task.
 
 The goal is to help users move from:
 
