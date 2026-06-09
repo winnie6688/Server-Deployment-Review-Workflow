@@ -1,14 +1,18 @@
 # Workflow Overview
 
-Server Deployment Review Workflow is a staged review process for AI-assisted deployment.
+Server Deployment Review Workflow is a staged review process for AI-assisted deployment planning.
 
 It is designed for situations where a user wants to add a new project to a server that already runs existing services.
 
+The AI does not autonomously operate the server in this workflow.
+
+Instead, the AI helps the user inspect, analyze, plan, and finally produce a human-readable deployment guide.
+
 ## Why staged review matters
 
-AI Coding tools can write and run deployment commands quickly, but speed is not always safe.
+AI Coding tools can generate deployment steps quickly, but speed is not always safe.
 
-On an existing server, the AI must first understand the current environment:
+On an existing server, the AI must first help the user understand the current environment:
 
 - Which services are already running
 - Which ports are already occupied
@@ -16,6 +20,7 @@ On an existing server, the AI must first understand the current environment:
 - Which process manager is used
 - Which data services exist
 - Which files and configurations must be protected
+- Which sensitive discovery outputs require redaction
 
 A deployment is not only a code task. It is a system change.
 
@@ -23,7 +28,12 @@ A deployment is not only a code task. It is a system change.
 
 ### Phase 1: Server Discovery
 
-Collect read-only information about the server.
+Collect safe discovery information about the server.
+
+Phase 1 uses two discovery modes:
+
+- AI-executable low-risk discovery
+- Human-executed sensitive discovery with redaction
 
 ### Phase 2: Architecture Analysis
 
@@ -45,9 +55,11 @@ Design a deployment plan that minimizes conflicts.
 
 Plan how to return to the previous stable state if deployment fails.
 
-### Phase 7: Deployment Execution Gate
+### Phase 7: Human Deployment Guide
 
-Require explicit user confirmation before deployment begins.
+Generate a human-readable guide that the user can review and use when performing backend deployment manually.
+
+Phase 7 does not mean the AI operates the server.
 
 ## Recommended operating mode
 
@@ -67,14 +79,16 @@ Then continue:
 Continue to next phase.
 ```
 
-Only start deployment when the user says:
+At Phase 7, ask the AI to generate the human deployment guide.
 
-```text
-Start deployment
-```
+The user should review the guide and perform backend deployment manually.
 
 ## Human-in-the-loop principle
 
 The user should review each phase before the AI proceeds.
 
 This prevents early misunderstandings from becoming later deployment mistakes.
+
+The final output of the workflow is not an autonomous deployment action.
+
+The final output is a clear guide for human-controlled backend deployment.
