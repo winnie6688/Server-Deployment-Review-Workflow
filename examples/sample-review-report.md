@@ -77,10 +77,20 @@ Rollback steps:
 4. Verify existing projects are still reachable.
 5. Confirm CPU, memory, disk, and logs are normal.
 
-## Phase 7: Gate
+## Phase 7: Human Deployment Guide Summary
 
-Deployment must not start until the user says:
+Phase 7 does not mean the AI operates the server.
 
-```text
-Start deployment
-```
+Phase 7 should generate a human-readable guide for the user to review and use during backend deployment.
+
+The guide should include:
+
+- Deployment readiness summary
+- Final deployment plan summary
+- Resources that must not be touched
+- Human execution checklist
+- Verification checklist
+- Rollback summary
+- Final reminders
+
+The user performs backend deployment manually.
