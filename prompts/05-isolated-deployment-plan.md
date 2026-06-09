@@ -6,6 +6,8 @@ Design a safe deployment plan for the new project based on previous review phase
 
 The deployment plan must avoid conflicts with existing services.
 
+This plan will later be converted into a human-readable deployment guide in Phase 7.
+
 ## Input required
 
 Use the reports from:
@@ -20,6 +22,8 @@ Also use the new project requirements provided by the user.
 ## Scope
 
 This is a planning-only phase. Do not make system changes.
+
+The AI must not operate the server in this phase.
 
 ## Planning areas
 
@@ -37,6 +41,7 @@ Design recommendations for:
 - Cache strategy
 - File upload/storage strategy
 - Monitoring or health check idea
+- Human execution notes for Phase 7
 
 ## Required output format
 
@@ -84,6 +89,7 @@ Rules:
 - Do not use global environment variables unless necessary.
 - Do not reuse unrelated project secrets.
 - Keep project-specific secrets inside the project environment file.
+- Do not print secret values in the report.
 
 ## 6. Recommended Nginx strategy
 
@@ -138,7 +144,19 @@ Reason:
 | Item | Proposed value | Reason | Conflict risk |
 |---|---|---|---|
 
-## 11. User decisions required before rollback planning
+## 11. Human execution notes for Phase 7
+
+List details that should be converted into the human deployment guide later.
+
+Examples:
+
+- Which directory the human should prepare
+- Which port the human should avoid or use
+- Which existing services must not be touched
+- Which environment variables must be prepared on the server but not pasted into chat
+- Which checks should be performed after the human completes backend work
+
+## 12. User decisions required before rollback planning
 
 Phase 5 completed. Waiting for user confirmation before moving to the next phase.
 ```
