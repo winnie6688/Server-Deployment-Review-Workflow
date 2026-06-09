@@ -2,7 +2,7 @@
 
 ## Goal
 
-Design a rollback plan before any deployment action is allowed.
+Design a rollback plan before the human user performs backend deployment work.
 
 This phase answers:
 
@@ -23,6 +23,10 @@ Use the reports from:
 ## Scope
 
 This is a planning-only phase. Do not make system changes.
+
+The AI must not operate the server in this phase.
+
+The rollback plan will later be summarized into the human deployment guide in Phase 7.
 
 ## Rollback areas
 
@@ -92,7 +96,7 @@ Choose one:
 
 Reason:
 
-## 7. User decisions required before deployment gate
+## 7. User decisions required before Phase 7 Human Deployment Guide
 
 Phase 6 completed. Waiting for user confirmation before moving to the next phase.
 ```
@@ -101,7 +105,7 @@ Phase 6 completed. Waiting for user confirmation before moving to the next phase
 
 After completing this plan, stop.
 
-Do not proceed to deployment execution gate until the user says:
+Do not proceed to Phase 7 Human Deployment Guide until the user says:
 
 ```text
 Continue to next phase
