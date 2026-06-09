@@ -2,7 +2,7 @@
 
 A staged review workflow for deploying new projects on existing servers with AI Coding tools.
 
-This repository provides a structured process for AI agents and AI Coding tools to inspect, analyze, and plan before deploying a new project to an existing server.
+This repository provides a structured process for AI agents and AI Coding tools to inspect, analyze, plan, and prepare a human-readable deployment guide before a new project is added to an existing server.
 
 It is designed to reduce deployment risks such as:
 
@@ -18,9 +18,9 @@ It is designed to reduce deployment risks such as:
 
 ## Why this project exists
 
-AI Coding tools are becoming increasingly capable of writing and deploying applications. However, deploying a new project to an existing server is not only a coding task. It is a system change.
+AI Coding tools are becoming increasingly capable of writing applications and generating deployment steps. However, deploying a new project to an existing server is not only a coding task. It is a system change.
 
-Before deployment, an AI agent should understand:
+Before deployment, an AI agent should help the user understand:
 
 - What is already running on the server
 - Which ports are occupied
@@ -30,6 +30,7 @@ Before deployment, an AI agent should understand:
 - What resources may be affected by the new project
 - How to roll back if deployment fails
 - Which discovery outputs may contain sensitive information and require human redaction
+- What deployment steps the human user should perform manually
 
 ## Workflow
 
@@ -46,7 +47,7 @@ Phase 5: Isolated Deployment Plan
 ↓
 Phase 6: Rollback Plan
 ↓
-Phase 7: Deployment Execution Gate
+Phase 7: Human Deployment Guide
 ```
 
 ## Phase 1 discovery model
@@ -91,6 +92,8 @@ Do not deploy first.
 
 Review first.
 
+Guide the human user clearly.
+
 ## Recommended usage
 
 Use this workflow with:
@@ -105,11 +108,11 @@ Use this workflow with:
 
 ## Safety rule
 
-Before the final deployment phase, the AI is only allowed to inspect, analyze, and plan.
+The AI is allowed to inspect, analyze, plan, and prepare guidance.
 
 Safety in this workflow includes both system safety and information safety.
 
-The AI must not:
+The AI must not directly:
 
 - Create project directories
 - Upload code
@@ -123,12 +126,13 @@ The AI must not:
 - Change databases
 - Request or print full secrets, tokens, private keys, passwords, cookies, or database connection strings
 - Request or print full production logs without redaction
+- Operate the server as an autonomous deployment agent
 
-Deployment can only begin after the user explicitly says:
+Phase 7 does not mean the AI starts deployment.
 
-```text
-Start deployment
-```
+Phase 7 means the AI generates a human-readable deployment guide based on the reviewed information from Phase 1 to Phase 6.
+
+The human user performs backend deployment manually.
 
 ## Repository structure
 
@@ -167,7 +171,8 @@ Server-Deployment-Review-Workflow/
 5. For Class B sensitive discovery, run the command manually, redact sensitive values, and paste back only the necessary summary.
 6. Review the output manually.
 7. Continue to the next phase only after confirmation.
-8. Do not allow deployment until Phase 7.
+8. In Phase 7, ask the AI to generate the human deployment guide.
+9. Review the guide and perform backend deployment manually.
 
 ## Design philosophy
 
@@ -184,5 +189,5 @@ Let AI write and deploy code
 to:
 
 ```text
-Let AI follow engineering review discipline before system changes
+Let AI help review, plan, and generate safe human deployment guidance
 ```
