@@ -1,24 +1,23 @@
-# Phase 7: Deployment Execution Gate
+# Phase 7: Human Deployment Guide
 
 ## Goal
 
-This phase is the final gate before deployment.
+Create a human-readable deployment guide based on the completed Phase 1 to Phase 6 reports.
 
-No deployment action is allowed unless the user explicitly confirms.
+Phase 7 is not for autonomous operation.
 
-## Required confirmation
+The AI does not operate the server. The AI only prepares a clear guide for the user to review and use in their own backend environment.
 
-The user must explicitly say:
+## Core principle
 
 ```text
-Start deployment
+AI prepares the guide.
+Human performs the backend work.
 ```
 
-Without this exact confirmation, do not deploy.
+## Required inputs
 
-## Required inputs before deployment
-
-Before any deployment action, confirm that the following reports exist:
+Before creating the guide, confirm that these reports exist:
 
 - Phase 1: Server Discovery Report
 - Phase 2: Architecture Analysis Report
@@ -27,65 +26,126 @@ Before any deployment action, confirm that the following reports exist:
 - Phase 5: Isolated Deployment Plan
 - Phase 6: Rollback Plan
 
-## Pre-deployment confirmation checklist
+If any report is missing, do not create the final guide. Ask the user to complete the missing phase first.
+
+## What Phase 7 should produce
+
+Phase 7 should produce a final guide for the user, including:
+
+1. Deployment readiness summary
+2. Final deployment plan summary
+3. Resources that must not be touched
+4. Human execution checklist
+5. Verification checklist
+6. Rollback summary
+7. Final reminders
+
+## Important boundary
+
+The AI must not claim that it will operate the server.
+
+The AI should write the guide in a way that makes clear:
+
+- The user will review each step.
+- The user will perform backend work manually.
+- Sensitive values should stay on the server and should not be pasted into public chat.
+- If the actual result differs from the expected result, the user should stop and ask for review.
+
+## Required output format
 
 ```markdown
-# Phase 7: Deployment Execution Gate
+# Phase 7: Human Deployment Guide
 
-## 1. Reports completed
+## 1. Deployment readiness summary
 
-| Report | Completed? | Notes |
-|---|---|---|
-| Phase 1 Server Discovery |  |  |
-| Phase 2 Architecture Analysis |  |  |
-| Phase 3 Risk Analysis |  |  |
-| Phase 4 Change Impact Analysis |  |  |
-| Phase 5 Isolated Deployment Plan |  |  |
-| Phase 6 Rollback Plan |  |  |
-
-## 2. Planned changes
-
-| Change item | Planned value | Risk | Rollback method |
+| Phase | Completed? | Key conclusion | Notes |
 |---|---|---|---|
+| Phase 1 Server Discovery |  |  |  |
+| Phase 2 Architecture Analysis |  |  |  |
+| Phase 3 Risk Analysis |  |  |  |
+| Phase 4 Change Impact Analysis |  |  |  |
+| Phase 5 Isolated Deployment Plan |  |  |  |
+| Phase 6 Rollback Plan |  |  |  |
+
+## 2. Final deployment plan summary
+
+Summarize the final plan in plain language.
+
+Include:
+
+- Project name
+- Project directory
+- Runtime method
+- Internal port
+- Domain
+- Reverse proxy strategy
+- HTTPS strategy
+- Environment file strategy
+- Process manager strategy
+- Database strategy if applicable
 
 ## 3. Resources that must not be touched
 
-| Resource | Protection rule |
-|---|---|
+| Resource | Protection rule | Reason |
+|---|---|---|
 
-## 4. Final user confirmation required
+## 4. Human execution checklist
 
-Deployment has not started.
+For each step, include:
 
-Please confirm with:
+- Purpose
+- Suggested action
+- Expected result
+- Check before continuing
+- Stop condition
 
-Start deployment
+Suggested sections:
+
+### Step 1: Prepare project location
+
+### Step 2: Place project code
+
+### Step 3: Prepare runtime dependencies
+
+### Step 4: Prepare environment configuration
+
+### Step 5: Start project runtime
+
+### Step 6: Prepare reverse proxy routing
+
+### Step 7: Prepare HTTPS if needed
+
+### Step 8: Verify the new project
+
+### Step 9: Verify existing services
+
+## 5. Verification checklist
+
+| Check | Suggested method | Expected result | Status |
+|---|---|---|---|
+| New project runtime |  |  |  |
+| Internal port |  |  |  |
+| Reverse proxy routing |  |  |  |
+| New domain |  |  |  |
+| Existing API |  |  |  |
+| Existing web service |  |  |  |
+| Resource usage |  |  |  |
+
+## 6. Rollback summary
+
+Summarize the rollback plan from Phase 6.
+
+## 7. Final reminder
+
+The AI has not performed backend work.
+
+The user should review and use this guide manually.
+
+If any actual result differs from the expected result, stop and ask for review before continuing.
 ```
-
-## Execution discipline after confirmation
-
-If the user confirms deployment, execute step by step.
-
-For each step:
-
-1. State what will be changed.
-2. Run the minimal necessary command.
-3. Show the result.
-4. Verify whether the step succeeded.
-5. Stop immediately if a critical error occurs.
-
-## Post-deployment verification
-
-After deployment, verify:
-
-- New project process is running
-- New port is listening
-- Nginx configuration is valid
-- Domain or route works if applicable
-- Existing services are still reachable
-- Logs do not show critical errors
-- Resource usage is normal
 
 ## Stop condition
 
-If the user has not said `Start deployment`, stop at the gate.
+After producing the human deployment guide, stop.
+
+Do not operate the server.
